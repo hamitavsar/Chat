@@ -1,0 +1,124 @@
+window{
+	background: #2b2a2a;
+
+  background-position: center;
+  background-size: cover;
+}
+#fixed{
+}
+#gride {
+  background: #4e4e4e;
+  border-radius: 15px;
+  padding: 70px;  
+}
+#image{
+	padding-bottom: 25px; 
+}
+#Login{
+	border-width: 10px;
+}
+#reg,#log{
+  box-shadow:inset 0px 1px 0px 0px #ec4e4e;
+  background:linear-gradient(to bottom, #ff0000 5%, #e53737 100%);
+  background-color:#9c2400;
+  border-radius:6px;
+  border:1px solid #702525;
+  color:#ffffff;
+  font-family:Arial;
+  font-size:15px;
+  font-weight:bold;
+  padding:6px 24px;
+  text-decoration:none;
+  text-shadow:0px 1px 0px #da7272;
+}
+#reg:hover {
+  background:linear-gradient(to bottom, #bd3530 5%, #fc4c4c 100%);
+  background-color:#e53737;
+}
+
+#log:hover {
+  background:linear-gradient(to bottom, #bd3530 5%, #fc4c4c 100%);
+  background-color:#ee4c4c;
+}
+#chatrow{
+  background-color:#fbfafa;
+  border: 1px solid #ecebeb;
+  color:rgba(0, 0, 0, 0.493);
+}
+#listboxleft{
+  background-color:#4e4e4e;
+  border: 1px solid #383838;
+}
+#leftbox{
+  background-color:#4e4e4e;
+  border: 2px solid #383838;
+}
+#searchmenu{
+  background-color:#4e4e4e;
+  font-size: 24px;
+}
+#rightbox{
+  background-color:#4e4e4e;
+  border: 2px solid #383838;
+}
+#downbox{
+  background-color:#4e4e4e;
+}
+#newmessedgentry{
+background: transparent;
+border: none;
+}
+#listboxmess{
+  
+  background-color: rgba(0, 0, 0, 0.562);
+  background-position: center;
+  background-repeat: repeat;
+}
+#message{
+  background-color: #ffffff;
+  border-radius: 15px;
+  padding: 3px;
+}
+#minilistbox{
+  background-color: #ffffff;
+}
+#editgrid{
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 40px;  
+
+}
+#stickerwindow{
+  background-color: white;
+  background-image:none;
+}
+#labellmenu2bold{
+font-weight: bold;
+background: transparent;
+border: none;
+}
+#labellmenu2italic{
+font-style: italic;
+background: transparent;
+border: none;
+}
+#labellmenu2red{
+color:red;
+background: transparent;
+border: none;
+}
+#labellmenu2big{
+font-size: 30px;
+ background: transparent;
+border: none; 
+}
+#labellmenu2small{
+  font-size: 10px;
+ background: transparent;
+border: none; 
+}
+#labellmenu2yellow{
+  color:yellow;
+background: transparent;
+border: none;
+}

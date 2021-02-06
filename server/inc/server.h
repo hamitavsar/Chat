@@ -1,0 +1,94 @@
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/socket.h>
+#include <sys/select.h>
+#include <stdio.h>
+#include <fcntl.h>
+#include <stdbool.h>
+#include <string.h>
+#include <netinet/in.h>
+#include <sqlite3.h>
+#include <pthread.h>
+#include <stdbool.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include "libmx.h"
+#include "cJSON.h"
+#include "utils.h"
+
+typedef struct socket_list {
+	int sock_fd;
+	bool is_logged;
+	char *login;
+	struct socket_list *next;
+} connected_client_list_t;
+
+typedef struct {
+	fd_set read_descriptors;
+	connected_client_list_t head;
+} server_context_t;
+
+typedef struct chats {
+    char* chat_name;
+    char* last_message;
+    char* chat_id;
+    struct chats *next;
+} chats_t;
+
+typedef struct chat_message {
+	int list_len;
+	char *sender;
+    char *time;
+    char *message;
+    char *msg_type;
+    struct chat_message *next; 
+} chat_message_t;
+
+typedef struct users_list {
+	int  id;
+	char *nickname;
+	char *login;
+	struct users_list *next;
+} users_list_t;
+
+int  mx_get_port(char **argv);
+int  mx_listening_socket_init(int port);
+void mx_argv_validator(int argc);
+void mx_login_user_socket(connected_client_list_t *p, char *send_packet, char **receivers);
+int  mx_user_is_already_logged_in(connected_client_list_t *list, char *user_login);
+void mx_deamon_start(void);
+void mx_write_to_log(char *msg, int stream);
+
+void    mx_database_init();
+sqlite3 *mx_opening_db();
+void mx_def_database();
+void mx_dberror(sqlite3 *db, int status, char *msg);
+void mx_db_msg_error(int status, char *msg_error);
+char *mx_get_nickname_by_login(char *login);
+
+int mx_socket_list_add(connected_client_list_t    *head, int new_sock_fd);
+int mx_socket_list_free(connected_client_list_t   *head);
+int mx_socket_list_remove(connected_client_list_t *head, int sock_fd);
+connected_client_list_t *mx_socket_list_find(connected_client_list_t *head, int sock_fd);
+
+char *mx_database_communication(char *packet, connected_client_list_t **p);
+char *mx_login_system(char *packet);
+char *mx_registration_system(char *packet);
+chats_t *mx_get_users_chats(char *user);
+char* mx_chat_render(char* packet);
+char* mx_add_message_by_id(char* packet);
+char* mx_find_user(char* packet);
+char* mx_add_contact(char* packet);
+char* mx_change_password(char* pakcet);
+
+
+void mx_push_back_message_node(chat_message_t **list, char *sender, char *time, 
+char *message, char* msg_type);
+int mx_chats_list_len(chats_t *chat);
+int mx_get_last_message_id(int chat_id);
+void mx_null_value_error(char *func_name);
+
+
+
+
