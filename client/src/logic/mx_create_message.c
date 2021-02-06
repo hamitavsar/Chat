@@ -3,12 +3,12 @@
 gboolean mx_create_message(void *data){
     t_s_glade *pack = (t_s_glade *)data; 
     GtkAdjustment *adj;
-    char *nameuser = client_context->username;
-    char *sender = get_value_by_key(pack->pack,mx_strjoin("SENDER",mx_itoa(pack->number)));
-    int messagenum = atoi(get_value_by_key(pack->pack,mx_strjoin("ID",mx_itoa(pack->number))));
-    char *messagetext = get_value_by_key(pack->pack,mx_strjoin("MESSAGE",mx_itoa(pack->number)));
-    char *timemessage = get_value_by_key(pack->pack,mx_strjoin("TIME",mx_itoa(pack->number)));
-    char *type = get_value_by_key(pack->pack,mx_strjoin("MSGTYPE",mx_itoa(pack->number))); 
+    char *nameuser = client_context->kullaniciadi;
+    char *sender = get_value_by_key(pack->paket,mx_strjoin("SENDER",mx_itoa(pack->number)));
+    int messagenum = atoi(get_value_by_key(pack->paket,mx_strjoin("ID",mx_itoa(pack->number))));
+    char *messagetext = get_value_by_key(pack->paket,mx_strjoin("MESSAGE",mx_itoa(pack->number)));
+    char *timemessage = get_value_by_key(pack->paket,mx_strjoin("TIME",mx_itoa(pack->number)));
+    char *type = get_value_by_key(pack->paket,mx_strjoin("MSGTYPE",mx_itoa(pack->number))); 
 
     adj = gtk_adjustment_new(10000, 100000, 1, 1000, 10000, 10000);
     row = gtk_list_box_row_new();
@@ -103,7 +103,7 @@ gboolean mx_create_message(void *data){
     gtk_box_pack_start(GTK_BOX(messagebox),labellmenu3, FALSE, FALSE, 0);
     g_idle_add ((int (*)(void *))show_widget, window);
     gtk_scrolled_window_set_vadjustment(GTK_SCROLLED_WINDOW(scrollmess), adj);
-    client_context->counter+=1;
+    client_context->saydir+=1;
     pack->number+=1;
     return 0;
 }

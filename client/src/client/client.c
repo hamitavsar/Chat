@@ -7,7 +7,7 @@ static void destroy(GtkWidget *widget, gpointer data){
 }
 
 
-static void gui(int argc, char **argv, client_context_t *client_context) {
+static void guinumber(int argc, char **argv, client_context_t *client_context) {
     gtk_init(&argc, &argv);
 
     GtkCssProvider *provider = gtk_css_provider_new();
@@ -31,10 +31,9 @@ static void gui(int argc, char **argv, client_context_t *client_context) {
 
 static struct sockaddr_in client_address_describer(int port,  char *address) { 
     /*
-      Create structure, where client address is described.
       1.Sunucu Adresi
       2. ip version AF_INET = IPv4
-      3. Sunucuya ait port numarası.
+      3. Sunucuya ait port numfindsı.
      */
     struct sockaddr_in client_addr;
     bzero(&client_addr, sizeof(client_addr));
@@ -49,28 +48,28 @@ void client_context_init(int sockfd) {
     client_context = (client_context_t *)malloc(sizeof(client_context_t));
     if (client_context == NULL)
         error("Client context malloc error", -1);
-    client_context->sockfd = sockfd;
+    client_context->soketfd = sockfd;
 }
 
-static void received_packet_analyzer(char *packet_type, char *packet) {
+static void received_packet_analyzer(char *packet_type, char *paket) {
     if (!mx_strcmp(packet_type, "reg_s"))
-        gdk_threads_add_idle_full(G_PRIORITY_HIGH_IDLE, mx_registration_system, (void *)mx_strdup(packet), 0);
+        gdk_threads_add_idle_full(G_PRIORITY_HIGH_IDLE, mx_registration_system, (void *)mx_strdup(paket), 0);
     else if (!mx_strcmp(packet_type, "login_s")){
-        if(mx_strcmp(get_value_by_key(packet, "STATUS"), "false") != 0)
-            mx_login_system(client_context, packet);
+        if(mx_strcmp(get_value_by_key(paket, "STATUS"), "false") != 0)
+            mx_login_system(client_context, paket);
     }
     else if (!mx_strcmp(packet_type, "find_user_s")){
-        gdk_threads_add_idle_full(G_PRIORITY_HIGH_IDLE, mx_draw_list_box_system, (void *)mx_strdup(packet), 0);
+        gdk_threads_add_idle_full(G_PRIORITY_HIGH_IDLE, mx_draw_list_box_system, (void *)mx_strdup(paket), 0);
     }
     else if (!mx_strcmp(packet_type, "add_new_user_s")) {
 
-       if(mx_strcmp(get_value_by_key(packet, "STATUS"), "false") != 0)
-            mx_remake_chats(packet);
+       if(mx_strcmp(get_value_by_key(paket, "STATUS"), "false") != 0)
+            mx_remake_chats(paket);
     }
     else if (!mx_strcmp(packet_type, "msg_s"))
-        gdk_threads_add_idle_full(G_PRIORITY_HIGH_IDLE, mx_create_row_system, (void *)mx_strdup(packet), 0);
+        gdk_threads_add_idle_full(G_PRIORITY_HIGH_IDLE, mx_create_row_system, (void *)mx_strdup(paket), 0);
      else if (!mx_strcmp(packet_type, "add_msg_s")) {
-        mx_create_row_system_new(client_context, packet);
+        mx_create_row_system_new(client_context, paket);
     }
 
 }
@@ -80,34 +79,34 @@ static void received_packet_analyzer(char *packet_type, char *packet) {
   Alınan paketler analiz edilir.
   Yapılan değişiklikler grafik ekrana yansıtılır
  */
-static void *server_communication(void *param) {
+static void *server_communication(void *pfindm) {
     fd_set read_descriptors;
     struct timeval tv = wait_time(1, 0);
     int status;
-    char *packet;
-    char *packet_type;
+    char *paket;
+    char *paket_type;
     while(1) {
         FD_ZERO(&read_descriptors);
-        FD_SET(client_context->sockfd, &read_descriptors);
+        FD_SET(client_context->soketfd, &read_descriptors);
         status = select(FD_SETSIZE, &read_descriptors, NULL, NULL, &tv);
         if (status <= 0) continue;
         // Sunucudan Gelen Paketler.
-        packet      = packet_receive(client_context->sockfd);
-        if (packet == NULL || !mx_strcmp(packet, "")) {
+        paket      = packet_receive(client_context->soketfd);
+        if (paket == NULL || !mx_strcmp(paket, "")) {
             char *msg = "get_value_by_key error in server_communication";
             write(2, msg, (int)strlen(msg));
             exit(1);
         }
 
-        packet_type = get_value_by_key(packet, "TYPE");
-        if (packet_type == NULL){
+        paket_type = get_value_by_key(paket, "TYPE");
+        if (paket_type == NULL){
             char *msg = "get_value_by_key error in server_communication";
             write(2, msg, (int)strlen(msg));
             exit(1);
         }
-        received_packet_analyzer(packet_type, packet);
-        free(packet_type);
-        free(packet);
+        received_packet_analyzer(paket_type, paket);
+        free(paket_type);
+        free(paket);
     }
     return NULL;
 }
@@ -127,8 +126,8 @@ int main(int argc, char **argv) {
     int err = pthread_create(&client_thread, NULL, server_communication, NULL);
     error("Error while creating new thread.", err);
 
-    // Grafik Arayüz Başlatma
-    gui(argc, argv, client_context);
+    // Grafik findyüz Başlatma
+    guinumber(argc, argv, client_context);
     free(client_context);
     return 0;
 }

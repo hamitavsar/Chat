@@ -1,15 +1,13 @@
 #include "client.h"
-//Hamit AVŞAR
-//Hamit AVSAR
-//Хамит Авсар
+               
 gboolean mx_draw_message_menu(void *data){
-    client_context->guinumber = 0;
-    client_context->edit = 0;
-    client_context->find = 0;
+    client_context->gui = 0;
+    client_context->duzenle = 0;
+    client_context->ara = 0;
    
     client_context->indexrow = -1;
-    t_s_glade *gui = (t_s_glade *)data;
-    client_context->flag = FALSE;
+    t_s_glade *guinumber = (t_s_glade *)data;
+    client_context->bayrak = FALSE;
     gtk_widget_destroy(fixed);
     fixed = gtk_fixed_new();
     gtk_container_add(GTK_CONTAINER(window), fixed); 
@@ -42,7 +40,7 @@ gboolean mx_draw_message_menu(void *data){
     gtk_widget_set_name(listbox,"listboxleft");
     gtk_widget_set_size_request(scroll,300,718);
     gtk_container_add(GTK_CONTAINER(scroll), listbox);
-    g_signal_connect(listbox,"row-activated", G_CALLBACK(mx_touch_room_signal), &client_context->sockfd);
+    g_signal_connect(listbox,"row-activated", G_CALLBACK(mx_touch_room_signal), &client_context->soketfd);
     g_idle_add ((int (*)(void *))show_widget, window);
     return 0;
 }

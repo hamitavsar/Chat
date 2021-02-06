@@ -14,31 +14,27 @@
 #include "cJSON.h"
 
 typedef struct client_context_s {
-	int  sockfd;
-	char *username;
-	char *allusers;
+	bool bayrak;
+ 	bool duzenle;
+	bool ara;
+	int  gui;
+	int  soketfd;
+	char *kullaniciadi;
+	char *tumkullanicilar;
 	int  indexrow;
-	int  counter;
+	int  saydir;
 	char **mas;
-	bool flag;
- 	bool edit;
-	bool find;
-	int  guinumber;
+	
 } client_context_t;
 
 struct struct_type {
-	char *pack;
+	char *paket;
 	int number;
 	char *login;
 	char *nickname;
 };
 
-typedef struct s_s_glade {
- char *pack;
- int number;
- char *login;
- char *nickname;
-}           t_s_glade;
+
 
 
 
@@ -73,17 +69,17 @@ void mx_logout_system(GtkWidget *widget, gpointer data);
 gboolean mx_draw_list_box(void *data);
 
 
-// main
+
 void argv_validator(int argc, char **argv);
 int mx_socket();
 
-// Logic
+
 void mx_do_registration(GtkWidget *Registration, client_context_t *client_context);
 gboolean mx_registration_system(void *data);
 void mx_login_system(client_context_t *client_context, char *packet);
 gboolean mx_create_row_system(void *data);
 
-// additional
+
 void mx_null_error(char *msg);
 char *mx_get_time();
 
@@ -153,3 +149,9 @@ GtkWidget *messagebox;
 GtkWidget *editfixed;
 GtkWidget *editwindow;
 
+typedef struct s_s_glade {
+ char *paket; 
+ int number;
+ char *login;
+ char *nickname;
+}           t_s_glade;

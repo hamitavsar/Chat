@@ -1,14 +1,14 @@
 #include "client.h"
 
 void mx_touch_room_signal(GtkWidget *listbox, void *socket){
-    client_context->counter = 0;
+    client_context->saydir = 0;
     GtkListBoxRow *selectedrow = gtk_list_box_get_selected_row(GTK_LIST_BOX(listbox));
     int indexrow = gtk_list_box_row_get_index(GTK_LIST_BOX_ROW(selectedrow));
     client_context->indexrow =indexrow;
     GList *gl = gtk_container_get_children(GTK_CONTAINER(selectedrow));
     GtkGrid *gridchild = gl->data;
     GtkWidget *lab = gtk_grid_get_child_at(gridchild,1,0);
-    if( client_context->flag == FALSE){
+    if( client_context->bayrak == FALSE){
         scrollnewmess = gtk_scrolled_window_new(0,0);
         gtk_fixed_put(GTK_FIXED (fixed), scrollnewmess, 300,718);
         gtk_widget_set_size_request(scrollnewmess,724,50);
@@ -38,29 +38,29 @@ void mx_touch_room_signal(GtkWidget *listbox, void *socket){
         gtk_widget_set_name(listboxmess,"listboxmess");
         gtk_container_add(GTK_CONTAINER(scrollmess), listboxmess);
          g_idle_add ((int (*)(void *))show_widget, window);
-        client_context->flag = TRUE;
+        client_context->bayrak = TRUE;
     }
     int *test = (int *)socket;
-    char *chat_name = client_context->username;
+    char *chat_name = client_context->kullaniciadi;
     char chat_id[40];
     bzero(chat_id, 40);
     sprintf(chat_id, "CHATID:%d", ++indexrow);
     char* chat_id_str = mx_strjoin("CHATIDFROMDB:", client_context->mas[client_context->indexrow]);
-    char *packet_str = NULL;
-    cJSON *packet     = cJSON_CreateObject();
+    char *paket_str = NULL;
+    cJSON *paket     = cJSON_CreateObject();
     cJSON *json_value = cJSON_CreateString("msg_c");
-    cJSON_AddItemToObject(packet, "TYPE", json_value);
+    cJSON_AddItemToObject(paket, "TYPE", json_value);
     json_value = cJSON_CreateString(chat_name);
-    cJSON_AddItemToObject(packet, "CHATNAME", json_value);
+    cJSON_AddItemToObject(paket, "CHATNAME", json_value);
     json_value = cJSON_CreateString(mx_itoa(++indexrow));
-    cJSON_AddItemToObject(packet, "CHATID", json_value);
+    cJSON_AddItemToObject(paket, "CHATID", json_value);
     json_value = cJSON_CreateString("0");
-    cJSON_AddItemToObject(packet, "FROMMSG", json_value);
+    cJSON_AddItemToObject(paket, "FROMMSG", json_value);
     json_value = cJSON_CreateString("15");
-    cJSON_AddItemToObject(packet, "TOMSG", json_value);
+    cJSON_AddItemToObject(paket, "TOMSG", json_value);
     json_value = cJSON_CreateString(client_context->mas[client_context->indexrow]);
-    cJSON_AddItemToObject(packet, "CHATIDFROMDB", json_value);
-    packet_str = cJSON_Print(packet);
-    char *packet_with_prefix = packet_len_prefix_adder(packet_str);
-    send(client_context->sockfd, packet_with_prefix, (int)strlen(packet_with_prefix), 0);
+    cJSON_AddItemToObject(paket, "CHATIDFROMDB", json_value);
+    paket_str = cJSON_Print(paket);
+    char *paket_with_prefix = packet_len_prefix_adder(paket_str);
+    send(client_context->soketfd, paket_with_prefix, (int)strlen(paket_with_prefix), 0);
 }

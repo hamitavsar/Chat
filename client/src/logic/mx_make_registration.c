@@ -12,7 +12,7 @@ void mx_make_registration(GtkWidget *Registration, client_context_t *client_cont
     gtk_widget_set_name(iconnn,"image");
     gtk_grid_attach(GTK_GRID(grid), iconnn, 1, 98, 1, 1);
     login = gtk_entry_new();
-    gtk_entry_set_placeholder_text(GTK_ENTRY(login),"Username");
+    gtk_entry_set_placeholder_text(GTK_ENTRY(login),"kullaniciadi");
     gtk_grid_attach(GTK_GRID(grid), login, 1, 99, 1, 1);
     labell = gtk_label_new("");
     gtk_grid_attach(GTK_GRID(grid), labell, 1, 100, 1, 1);

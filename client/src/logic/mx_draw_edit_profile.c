@@ -1,8 +1,8 @@
 #include "client.h"
 
 void mx_draw_edit_profile(GtkWidget *widget, gpointer data){
-    if (client_context->edit == 0) {
-        client_context->edit = 1;
+    if (client_context->duzenle == 0) {
+        client_context->duzenle = 1;
         editwindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
         gtk_window_set_resizable (GTK_WINDOW(editwindow), FALSE);
         gtk_window_set_transient_for (GTK_WINDOW(editwindow),GTK_WINDOW(window));

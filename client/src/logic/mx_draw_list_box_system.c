@@ -1,8 +1,8 @@
 #include "client.h"
 
 gboolean mx_draw_list_box_system(void *data){
-    char *packet = (char *)data;
-    char *len_str = get_value_by_key(packet,"LENGTH");
+    char *paket = (char *)data;
+    char *len_str = get_value_by_key(paket,"LENGTH");
 	int len = atoi(len_str);
 	gtk_widget_destroy(miniscroll);
 	miniscroll = gtk_scrolled_window_new(0,0);
@@ -12,16 +12,16 @@ gboolean mx_draw_list_box_system(void *data){
     gtk_container_add(GTK_CONTAINER(miniscroll), minilistbox);
 	for (int i = 0; i < len; i++){
         char *nicknamex = mx_strjoin("NICKNAME",mx_itoa(i));
-		char *nickname = get_value_by_key(packet, nicknamex);
+		char *nickname = get_value_by_key(paket, nicknamex);
         char *loginx = mx_strjoin("LOGIN",mx_itoa(i));
-		char *login = get_value_by_key(packet, loginx);
-        t_s_glade *pack = (t_s_glade *)malloc(sizeof(t_s_glade));
-        pack->number = i;
-        pack->login = login;
-        pack->login = mx_string_copy(pack->login);
-        pack->nickname = nickname;
-        pack->nickname = mx_string_copy(pack->nickname);
-		gdk_threads_add_idle_full(G_PRIORITY_HIGH_IDLE, mx_draw_list_box, pack, 0);
+		char *login = get_value_by_key(paket, loginx);
+        t_s_glade *paket = (t_s_glade *)malloc(sizeof(t_s_glade));
+        paket->number = i;
+        paket->login = login;
+        paket->login = mx_string_copy(paket->login);
+        paket->nickname = nickname;
+        paket->nickname = mx_string_copy(paket->nickname);
+		gdk_threads_add_idle_full(G_PRIORITY_HIGH_IDLE, mx_draw_list_box, paket, 0);
 	}
     return 0;
 }

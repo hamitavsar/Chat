@@ -11,7 +11,7 @@
 #define PASSWORD_2_IS_EMPTY       8
 #define PASSWORD_TOO_SHORT        9
 
-// Validates syntax of login input.
+
 static int login_validator(char *input_login) {
     char *forbidden_symbols = " :";
     
@@ -23,7 +23,6 @@ static int login_validator(char *input_login) {
     return OKEY;
 }
 
-// Validates syntax of nick input.
 static int nick_validator(char *input_nick) {
     char *forbidden_symbols = " :";
 
@@ -34,7 +33,7 @@ static int nick_validator(char *input_nick) {
     return OKEY;
 }
 
-// Validates syntax of password input.
+
 static int pass_validator(char *password_1, char *password_2) {
     char *forbidden_symbols = " :";
 
@@ -51,10 +50,7 @@ static int pass_validator(char *password_1, char *password_2) {
     return OKEY;
 }
 
-/*
- * Makes validation of all inputed data.
- * Returns status macro.
- */
+
 static int validate(char *input_login, char *input_nick, char *input_password, char *input_password_confirm) {
     int validate_login_status = login_validator(input_login);
     int validate_nick_status  = nick_validator(input_nick);
@@ -69,20 +65,20 @@ static int validate(char *input_login, char *input_nick, char *input_password, c
     return OKEY;
 }
 
-static char *make_packet(char *input_login, char *input_nick, char *input_password) {
-    char *packet_str = NULL;
-    cJSON *packet     = cJSON_CreateObject();
+static char *make_paket(char *input_login, char *input_nick, char *input_password) {
+    char *paket_str = NULL;
+    cJSON *paket     = cJSON_CreateObject();
     cJSON *json_value = cJSON_CreateString("reg_c");
-    cJSON_AddItemToObject(packet, "TYPE", json_value);
+    cJSON_AddItemToObject(paket, "TYPE", json_value);
     json_value = cJSON_CreateString(input_login);
-    cJSON_AddItemToObject(packet, "LOGIN", json_value);
+    cJSON_AddItemToObject(paket, "LOGIN", json_value);
     json_value = cJSON_CreateString(mx_rsa_encrypt(crypt(input_password, "X07")));
-    cJSON_AddItemToObject(packet, "PASSWORD", json_value);
+    cJSON_AddItemToObject(paket, "PASSWORD", json_value);
     json_value = cJSON_CreateString(input_nick);
-    cJSON_AddItemToObject(packet, "NICKNAME", json_value);
-    packet_str = cJSON_Print(packet);
+    cJSON_AddItemToObject(paket, "NICKNAME", json_value);
+    paket_str = cJSON_Print(paket);
 
-    return packet_str;
+    return paket_str;
 }
 
 void mx_do_registration(GtkWidget *Registration, client_context_t *client_context) {
@@ -97,12 +93,13 @@ void mx_do_registration(GtkWidget *Registration, client_context_t *client_contex
         write(2, "Error while validate\n", 22);
             
     }
+    
     else {
-        char *packet             = make_packet(input_login, input_nick, input_password);
-        char *packet_with_prefix = packet_len_prefix_adder(packet);
+        char *paket             = make_paket(input_login, input_nick, input_password);
+        char *packet_with_prefix = packet_len_prefix_adder(paket);
          // Sunucuya kayıt verilerini gönderiyor
-        send(client_context->sockfd, packet_with_prefix, (int)strlen(packet_with_prefix), 0);
-        free(packet);
+        send(client_context->soketfd, packet_with_prefix, (int)strlen(packet_with_prefix), 0);
+        free(paket);
         free(packet_with_prefix);
     }
 }

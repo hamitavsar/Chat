@@ -1,19 +1,19 @@
 #include "client.h"
 
-void mx_login_system(client_context_t *client_context, char *packet) {
-    char *length = get_value_by_key(packet,"LENGTH");
-    client_context->username = get_value_by_key(packet,"TO");
+void mx_login_system(client_context_t *client_context, char *paket) {
+    char *length = get_value_by_key(paket,"LENGTH");
+    client_context->kullaniciadi = get_value_by_key(paket,"TO");
     int len = atoi(length);
     free(length);
-    t_s_glade *gui = (t_s_glade *)malloc(sizeof(t_s_glade));
-    gui->pack = packet;
-    gui->pack = mx_strdup(gui->pack);
-    gui->number = 0;
+    t_s_glade *guinumber = (t_s_glade *)malloc(sizeof(t_s_glade));
+    guinumber->paket = paket;
+    guinumber->paket = mx_strdup(guinumber->paket);
+    guinumber->number = 0;
     client_context->mas = mx_new_strarr(len + 1000);
-    gdk_threads_add_idle_full(G_PRIORITY_HIGH_IDLE, mx_draw_message_menu, gui, 0);
+    gdk_threads_add_idle_full(G_PRIORITY_HIGH_IDLE, mx_draw_message_menu, guinumber, 0);
     int i = 0;
     while (len > i && !gtk_events_pending()){
-        gdk_threads_add_idle_full(G_PRIORITY_HIGH_IDLE, mx_create_row, gui, 0);
+        gdk_threads_add_idle_full(G_PRIORITY_HIGH_IDLE, mx_create_row, guinumber, 0);
         i++;
     }
 }

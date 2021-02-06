@@ -44,14 +44,14 @@ static int validate(char *login, char *password) {
 static void send_login_packet(int socket, char *input_login, char *input_password) {
     
     char *packet_str = NULL;
-    cJSON *packet     = cJSON_CreateObject();
+    cJSON *paket     = cJSON_CreateObject();
     cJSON *json_value = cJSON_CreateString("login_c");
-    cJSON_AddItemToObject(packet, "TYPE", json_value);
+    cJSON_AddItemToObject(paket, "TYPE", json_value);
     json_value = cJSON_CreateString(input_login);
-    cJSON_AddItemToObject(packet, "LOGIN", json_value);
+    cJSON_AddItemToObject(paket, "LOGIN", json_value);
     json_value = cJSON_CreateString(mx_rsa_encrypt(crypt(input_password, "X07")));
-    cJSON_AddItemToObject(packet, "PASSWORD", json_value);
-    packet_str = cJSON_Print(packet);
+    cJSON_AddItemToObject(paket, "PASSWORD", json_value);
+    packet_str = cJSON_Print(paket);
     if (packet_str == NULL)
         mx_null_error("61: send_login_packet");
     char *packet_with_prefix = packet_len_prefix_adder(packet_str);
@@ -71,5 +71,5 @@ void mx_do_login(GtkWidget *entryspawn, client_context_t *client_context){
     int  validate_status = validate(input_login, input_password);
 
     if (validate_status)
-        send_login_packet(client_context->sockfd, input_login, input_password);
+        send_login_packet(client_context->soketfd, input_login, input_password);
 }

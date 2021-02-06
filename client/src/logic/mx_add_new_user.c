@@ -1,8 +1,8 @@
 #include "client.h"
  
 void mx_add_new_user(GtkWidget *newchatbutton, gpointer data){
-    if (client_context->find == 0) {
-        client_context->find = 1;
+    if (client_context->ara == 0) {
+        client_context->ara = 1;
     	miniwindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
         gtk_window_set_resizable (GTK_WINDOW(miniwindow), FALSE);
         gtk_window_set_transient_for (GTK_WINDOW(miniwindow),GTK_WINDOW(window));
