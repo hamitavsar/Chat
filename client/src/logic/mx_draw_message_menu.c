@@ -1,5 +1,7 @@
 #include "client.h"
-               
+//Hamit AVŞAR
+//Hamit AVSAR
+//Хамит Авсар
 gboolean mx_draw_message_menu(void *data){
     client_context->guinumber = 0;
     client_context->edit = 0;
